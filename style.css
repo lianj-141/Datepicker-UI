@@ -1,0 +1,228 @@
+/* Basic Setup */
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #333;
+    --border-color: #ccc;
+    --bg-color: #fff;
+    --hover-bg: #f0f0f0;
+    --selected-bg: #e0e0e0;
+    /* Slightly darker for selected */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f9f9f9;
+}
+
+/* Container */
+.datepicker-container {
+    position: relative;
+    /* Crucial for absolute positioning of dropdown */
+    width: 300px;
+}
+
+/* Input Group */
+.datepicker-input-group {
+    display: flex;
+    border: 2px solid var(--primary-color);
+    background-color: var(--bg-color);
+    /* Mimic the mockup: bold border */
+
+}
+
+.datepicker-input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px 12px;
+    font-size: 16px;
+    outline: none;
+    color: var(--primary-color);
+}
+
+.datepicker-input::placeholder {
+    color: #999;
+}
+
+.datepicker-button {
+    background: none;
+    border: none;
+    border-left: 2px solid var(--primary-color);
+    padding: 0 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.datepicker-button svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--primary-color);
+    /* As per mockup icon style - wait, mockup is outlined mostly, but let's see */
+    /* Reseting fill to black for the icon if needed, or stroke */
+    stroke: var(--primary-color);
+    fill: none;
+    stroke-width: 2.5;
+}
+
+/* Specifically for the calendar icon in mockup, it looks filled with a grid. 
+   The SVG I put in HTML is stroke-based. Let's make it look solid */
+
+/* Calendar Dropdown */
+.datepicker-calendar {
+    position: absolute;
+    top: 100%;
+    /* Push it down */
+    left: 0;
+    width: 100%;
+    /* Match width of input */
+    margin-top: 10px;
+    /* Space between input and calendar */
+    border: 2px solid var(--primary-color);
+    background-color: var(--bg-color);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    padding-bottom: 10px;
+}
+
+/* Header */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.nav-button svg {
+    /* Using triangles for arrows in mockup */
+    fill: var(--primary-color);
+    stroke: none;
+    width: 12px;
+    height: 12px;
+}
+
+/* Correcting SVG for nav buttons to be filled triangles as per mockup */
+.nav-button.prev-month svg path {
+    d: path("M15 18l-6-6 6-6");
+    /* This is a line icon, wait. */
+}
+
+/* Re-doing the svg content in CSS or trusting HTML. 
+   Plan: I'll stick to the HTML SVGs which are chevrons, close enough. 
+   If strict match needed, I'd replace with polygons. */
+
+
+.current-month {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 14px;
+    row-gap: 5px;
+}
+
+.weekday {
+    font-weight: bold;
+    color: #666;
+    padding: 5px 0;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.day {
+    padding: 8px 0;
+    cursor: pointer;
+}
+
+.day:hover:not(.empty) {
+    background-color: var(--hover-bg);
+}
+
+.day.empty {
+    cursor: default;
+}
+
+/* Mockup shows grid lines? */
+/* "It doesn't have to be a functional date picker... Just focus on making the UI" */
+/* The mockup shows actual grid lines for the days. 
+   Rows are separated by lines. Columns too.
+*/
+
+/* Adding grid lines to match mockup style */
+.calendar-grid {
+    gap: 0;
+    /* No gap for borders to touch */
+    border-top: 2px solid var(--primary-color);
+    /* Separator between header and days */
+}
+
+.day,
+.weekday {
+    /* To get full grid lines */
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 0;
+    /* More padding */
+}
+
+/* Remove right border for last column */
+.calendar-grid> :nth-child(7n) {
+    border-right: none;
+}
+
+/* Remove bottom border for last row? Mockup shows border all around container */
+/* The container has 2px solid border. The grid items inside have 1px gray borders? */
+
+/* Let's refine the grid borders */
+.calendar-grid {
+    border-top: 2px solid var(--primary-color);
+    background-color: var(--border-color);
+    /* Gap color */
+    gap: 1px;
+    /* Creates grid lines */
+}
+
+.weekday,
+.day {
+    background-color: var(--bg-color);
+    /* Cells white */
+    border: none;
+    /* Reset individual borders, use gap */
+}
+
+.weekday {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* Adjust header to not have the gap color */
+.datepicker-calendar {
+    /* ... */
+    background-color: var(--bg-color);
+}
+
+/* Selected state */
+.day.selected {
+    background-color: var(--selected-bg);
+    /* Or maybe just bold? Mockup has 'unselected' look mostly */
+}
